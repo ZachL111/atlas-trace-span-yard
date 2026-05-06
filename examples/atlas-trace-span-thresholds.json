@@ -1,0 +1,17 @@
+{
+  "repo": "atlas-trace-span-yard",
+  "thresholds": {
+    "signal": 3,
+    "slack": 2,
+    "confidence": 1,
+    "drag": 3,
+    "ship": 205,
+    "watch": 99
+  },
+  "terms": [
+    "span volume",
+    "latency skew",
+    "signal loss",
+    "incident shape"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "repo": "atlas-trace-span-yard",
+  "language": "Scala",
+  "category": "Observability",
+  "goal": "Package a Scala local lab for span analysis with fixture event logs, golden state snapshots, and documented operating limits.",
+  "weights": {
+    "signal": 3,
+    "slack": 2,
+    "confidence": 1,
+    "drag": 3
+  },
+  "thresholds": {
+    "ship": 205,
+    "watch": 99
+  },
+  "properties": [
+    "raising signal cannot reduce score",
+    "raising drag cannot improve score",
+    "lane labels must match configured thresholds",
+    "golden fixture ids must remain unique"
+  ],
+  "fixture_files": [
+    "fixtures/golden/scoreboard.csv",
+    "fixtures/golden/lane-matrix.csv",
+    "fixtures/fuzz/mutations.csv",
+    "fixtures/fuzz/boundary-cases.jsonl"
+  ]
+}
