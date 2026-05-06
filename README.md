@@ -1,68 +1,40 @@
 # atlas-trace-span-yard
 
-`atlas-trace-span-yard` explores observability in Scala. The repository keeps the core rule set compact, then surrounds it with examples that show how the decisions move.
+`atlas-trace-span-yard` keeps a focused Scala implementation around observability. The project goal is to package a Scala local lab for span analysis with fixture event logs, golden state snapshots, and documented operating limits.
 
-## Atlas Trace Span Yard Notes
+## Project Rationale
 
-The quickest review path is the verifier first, then the fixtures, then the operations note. That order makes it easy to see whether the code, data, and explanation still agree.
+I want this repository to be useful as a quick reading exercise: fixtures first, implementation second, verifier last.
 
-## Why This Exists
+## Atlas Trace Span Yard Review Notes
 
-This project keeps the domain idea close to the tests. That makes it useful as a reference implementation, a small experiment, or a starting point for a more specialized tool.
+Start with `incident shape` and `span volume`. Those cases create the widest score spread in this repo, so they are the best quick check when the model changes.
 
-## Implementation Notes
+## Feature Set
 
-The interesting part is the boundary between accepted and reviewed scenarios. Extended examples sit near that boundary so future edits can show whether the model became more permissive or more cautious. The Scala code uses case classes and a compact object API to keep the test path direct.
+- `fixtures/domain_review.csv` adds cases for span volume and latency skew.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/atlas-trace-span-walkthrough.md` walks through the case spread.
+- The Scala code includes a review path for `incident shape` and `span volume`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## Example Scenarios
+## Architecture
 
-`examples/extended_cases.csv` adds six named cases. I kept the names plain so failures are easy to read in a terminal: baseline, pressure, surge, degraded, recovery, and boundary.
+The implementation keeps the scoring rule plain: reward signal and confidence, preserve slack, penalize drag, then classify the result into a review lane.
 
-## Feature Notes
+The Scala code keeps the review rule close to the tests.
 
-- Uses fixture data to keep log shape changes visible in code review.
-- Includes extended examples for latency summaries, including `recovery` and `degraded`.
-- Documents incident slices tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
-
-## Local Setup
-
-Use a normal shell with Scala available on `PATH`. The verifier is written as a PowerShell script because the portfolio was assembled on Windows.
-
-## Tests
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
-
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Code Tour
-
-- `src`: primary implementation
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
-
-## Boundaries
-
-This code is local-first. It makes no claim about deployed usage and avoids credentials, hosted state, and environment-specific setup.
-
-## Roadmap
-
-- Add malformed input fixtures so the failure path is as visible as the happy path.
-- Split the scoring constants into a typed configuration object and validate it before use.
-- Add a comparison mode that shows how decisions change when one signal is adjusted.
-- Add one more observability fixture that focuses on a malformed or borderline input.
-
-## Try It
+## Usage
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Test Command
+
+The verifier is intentionally local. It should fail if the fixture score math, lane assignment, or language-specific test drifts.
+
+## Next Improvements
+
+This remains a local project with deterministic fixtures. It does not depend on credentials, hosted services, or live data. Future work should add richer malformed inputs before widening the public API.

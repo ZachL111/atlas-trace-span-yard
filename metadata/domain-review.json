@@ -1,0 +1,73 @@
+{
+  "repo": "atlas-trace-span-yard",
+  "language": "Scala",
+  "category": "Observability",
+  "goal": "Package a Scala local lab for span analysis with fixture event logs, golden state snapshots, and documented operating limits.",
+  "review_model": {
+    "terms": [
+      "span volume",
+      "latency skew",
+      "signal loss",
+      "incident shape"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "span volume",
+      "signal": 42,
+      "slack": 25,
+      "drag": 25,
+      "confidence": 73,
+      "score": 107,
+      "lane": "watch"
+    },
+    {
+      "name": "stress",
+      "focus": "latency skew",
+      "signal": 48,
+      "slack": 44,
+      "drag": 15,
+      "confidence": 89,
+      "score": 184,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "signal loss",
+      "signal": 67,
+      "slack": 28,
+      "drag": 19,
+      "confidence": 81,
+      "score": 186,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "incident shape",
+      "signal": 82,
+      "slack": 42,
+      "drag": 15,
+      "confidence": 54,
+      "score": 215,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "span volume",
+      "signal": 56,
+      "slack": 27,
+      "drag": 14,
+      "confidence": 59,
+      "score": 156,
+      "lane": "ship"
+    }
+  ]
+}
